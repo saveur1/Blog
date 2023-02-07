@@ -17,8 +17,12 @@ const options = {
           ],
         servers: [
           {
-            url: 'http://localhost:6700',
+            url: process.env.BLOG_URL,
             description: 'Development server',
+          },
+          {
+            url: 'http://localhost:6700',
+            description: 'Local Server',
           }
         ],
         components: {
