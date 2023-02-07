@@ -1,2 +1,2 @@
 # Node-Blog
-This is node js project for implementing blog using REST API
+Project for serving blog api using node js and express js
