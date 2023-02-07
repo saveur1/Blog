@@ -17,16 +17,12 @@ const options = {
           ],
         servers: [
           {
-            url: "https://saveur.cyclic.app",
-            description: 'Development server',
+            url: 'https://blog-j7dj.onrender.com',
+            description: 'Deployment Server',
           },
           {
             url: 'http://localhost:6700',
             description: 'Local Server',
-          },
-          {
-            url: 'https://blog-j7dj.onrender.com',
-            description: 'Deployment Server',
           }
         ],
         components: {
