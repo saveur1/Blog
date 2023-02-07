@@ -57,6 +57,11 @@ exports.get_all_users = (req,res,next) => {
 };
 
 exports.insert_new_user = (req,res,next) => {
+    if(req.file==undefined) {
+        return res.status(422).json({
+             message:"Upload Image Please"
+        });
+    }
     User.findOne({"email":req.body.email})
         .then(doc =>  {
             if(doc) {
