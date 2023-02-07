@@ -111,10 +111,23 @@ exports.insert_new_user = (req,res,next) => {
 
 exports.fetch_single_user = (req,res,next) => {
     const userId = req.params.userId;
+    if(userId.length<20) {
+        return res.status(422).json({
+            status:"failed",
+            message:"Incorrect user id detected"
+        });
+    }
     User.findById({_id:userId})
         .exec()
         .then(doc => {
-            res.status(200).json(doc);
+            if(doc) {
+                res.status(200).json(doc);
+            }
+            else {
+                res.status(401).json({
+                    message:"User is not found in the database"
+                })
+            }
         })
         .catch(error => {
             console.log(error);

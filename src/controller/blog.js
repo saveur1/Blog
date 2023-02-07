@@ -2,6 +2,7 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 exports.get_all_blogs = (req,res,next) => {
     Blog.find()
+    .populate()
     .exec()
     .then(docs => {
       let newDocs = docs.map(doc => {
