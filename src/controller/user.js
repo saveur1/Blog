@@ -25,11 +25,9 @@ exports.get_all_users = (req,res,next) => {
                     "result"       : docs.map(doc =>{
                         return {
                             _id        : doc._id,
-                            first_name : doc.first_name,
-                            last_name  : doc.last_name,
+                            username : doc.username,
                             email      : doc.email,
                             password   : doc.password,
-                            userImage  : doc.userImage,
                             active     : doc.active,
                             request    : {
                                 type :  "GET",
@@ -57,56 +55,61 @@ exports.get_all_users = (req,res,next) => {
 };
 
 exports.insert_new_user = (req,res,next) => {
-    if(req.file==undefined) {
-        return res.status(422).json({
-             message:"Upload Image Please"
-        });
-    }
-    User.findOne({"email":req.body.email})
-        .then(doc =>  {
+    User.findOne({"username":req.body.username})
+         .exec()
+         .then(doc => {
             if(doc) {
-                return res.status(422).json({
-                    message:"Email Already Exists"
+                return res.status(401).json({
+                    message:"username already exists in database"
                 });
             }
             else {
-                bcrypt.hash(req.body.password,10,(error,hash) => {
-                    if(error) {
-                        return res.status(500).json({
-                              error:error
-                        });
-                    }
-                    else {
-                        const newUser = new User({
-                            _id        : new mongoose.Types.ObjectId(),
-                            first_name : req.body.first_name,
-                            last_name  : req.body.last_name,
-                            email      : req.body.email,
-                            password   : hash,
-                            userImage  : process.env.BLOG_URL+"/public/"+req.file.filename
-                        });
-                        newUser.save()
-                        .then(result => {
-                           res.status(200).json({
-                               "message" : "User inserted successfully",
-                               "insertedUser" : newUser
-                           });
-                        })
-                        .catch(error => {
-                            console.log(error);
-                            res.status(500).json({
-                               error:error
+              User.findOne({"email":req.body.email})
+                    .then(doc =>  {
+                        if(doc) {
+                            return res.status(422).json({
+                                message:"Email Already Exists"
                             });
+                        }
+                        else {
+                            bcrypt.hash(req.body.password,10,(error,hash) => {
+                                if(error) {
+                                    return res.status(500).json({
+                                        error:error
+                                    });
+                                }
+                                else {
+                                    const newUser = new User({
+                                        _id        : new mongoose.Types.ObjectId(),
+                                        username   : req.body.username,
+                                        email      : req.body.email,
+                                        password   : hash,
+                                    });
+                                    newUser.save()
+                                    .then(result => {
+                                    res.status(200).json({
+                                        "message" : "User inserted successfully",
+                                        "insertedUser" : newUser
+                                    });
+                                    })
+                                    .catch(error => {
+                                        console.log(error);
+                                        res.status(500).json({
+                                        error:error
+                                        });
+                                    });
+                                }
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        res.status(500).json({
+                        error:error
                         });
-                    }
-                })
+                    });
             }
-        })
-        .catch(error => {
-            res.status(500).json({
-               error:error
-            });
-        });
+         })
+         .catch(error =>res.status(500).json({error:error}));
 };
 
 exports.fetch_single_user = (req,res,next) => {
@@ -138,6 +141,12 @@ exports.fetch_single_user = (req,res,next) => {
 };
 
 exports.modify_user_info = (req,res,next) => {
+    if(!req.params.updateId || req.params.updateId.length<15)
+    {
+        return res.status(401).json({
+            message:"Invalid request id"
+        });
+    }
     bcrypt.hash(req.body.password,10,(error,hash) => {
         if(error) {
             return res.status(500).json({
@@ -152,11 +161,9 @@ exports.modify_user_info = (req,res,next) => {
                 }, 
                 {
                   "$set":{
-                            first_name : req.body.first_name,
-                            last_name  : req.body.last_name,
+                            username   : req.body.username,
                             email      : req.body.email,
                             password   : hash,
-                            userImage  : process.env.BLOG_URL+"/public/"+req.file.filename
                   }
                 })
                  .exec()
@@ -181,10 +188,17 @@ exports.modify_user_info = (req,res,next) => {
 
 exports.delete_user = (req,res,next) => {
     const deleteId = req.params.deleteId;
+    if(!req.params.deleteId || req.params.deleteId.length<15)
+    {
+        return res.status(401).json({
+            message:"Invalid request id"
+        });
+    }
     User.deleteOne({_id:deleteId})
         .exec()
         .then(result => {
             res.status(200).json({
+              "status" : "success",
               "message" : "User deleted successfully"
             });
         })
@@ -210,7 +224,7 @@ exports.check_login_credentials = (req,res,next) => {
                     }
                     if(same) {
                         const token = jwt.sign({
-                            _id:doc._id,
+                            user_id:doc._id,
                             email:doc.email
                         },
                         process.env.SECRET_KEY,

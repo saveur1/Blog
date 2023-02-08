@@ -4,20 +4,15 @@ exports.UserDocs={
             tags:["User"],
             requestBody:{
                 content:{
-                    "multipart/form-data": {
+                    "application/json": {
                         schema: {
                             type:"object",
                             properties:{
-                                first_name:{
+                                username:{
                                     type:"String",
-                                    description:"Your First Name",
-                                    example:"Bikorimana",
+                                    description:"Your username",
+                                    example:"saveur12",
                                     required:true
-                                },
-                                last_name:{
-                                    type:"String",
-                                    description:"Your Last Name",
-                                    example:"Saveur"
                                 },
                                 email:{
                                     type:"String",
@@ -28,12 +23,8 @@ exports.UserDocs={
                                 password:{
                                     type:"String",
                                     description:"Strong Password",
-                                    example:"afldfsnjlvala",
+                                    example:"saveur",
                                     title:"Your Password"
-                                },
-                                userImage:{
-                                    type:"file",
-                                    description:"User Image Or Profile"
                                 }
                             }
                         }
@@ -48,12 +39,10 @@ exports.UserDocs={
                                 type:"object",
                                 example:{
                                     _id: "63d90a40ef529fd533f8edf4",
-                                    first_name: "bikorimana",
-                                    last_name: "saveur",
+                                    username: "saveur123",
                                     email: "bikorimana@gmail.com",
                                     password: "$2b$10$aMtqmQvrf5ogVJU9vIk4oOZFcO1Jt6Zgup7bJZ6jR/k8dlb4KGZjO",
                                     active: true,
-                                    userImage: "http://localhost:6700/public/userImage_1675376085296_bivakumana.jpg"
                                 }
                          }
                     }
@@ -188,12 +177,10 @@ exports.UserDocs={
                             type:"object",
                             example:{
                                 _id: "63d90a40ef529fd533f8edf4",
-                                first_name: "bikorimana",
-                                last_name: "saveur",
+                                username: "bikorimana",
                                 email: "bikorimana@gmail.com",
                                 password: "$2b$10$aMtqmQvrf5ogVJU9vIk4oOZFcO1Jt6Zgup7bJZ6jR/k8dlb4KGZjO",
                                 active: true,
-                                userImage: "http://localhost:6700/public/userImage_1675376085296_bivakumana.jpg"
                             }
                         }
                     }
@@ -218,20 +205,14 @@ exports.UserDocs={
             ],
             requestBody:{
                 content:{
-                    "multipart/form-data" : {
+                    "application/json" : {
                         schema:{
                             type:"object",
                             properties:{
-                                first_name:{
-                                    type:"String",
-                                    description:"upadate your first name",
-                                    required:true,
-                                    example:"bikorimana"
-                                },
-                                last_name:{
+                                username:{
                                     type:"String",
                                     required:true,
-                                    description:"update last name",
+                                    description:"update username",
                                     example:"Saveur"
                                 },
                                 email:{
@@ -251,11 +232,6 @@ exports.UserDocs={
                                     required:true,
                                     description:"What is user status",
                                     example:"true"
-                                },
-                                userImage:{
-                                    type:"file",
-                                    required:true,
-                                    description:"Update User image"
                                 }
                             }
                         }
