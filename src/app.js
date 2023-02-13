@@ -7,7 +7,7 @@ const swaggerDocumantation = require("./helper/documantation");
 
 const mainRouter = require("./routes/blog");
 const User = require("./routes/user");
-const realEstate = require("./routes/realEstate");
+const realEstate = require("./routes/realestate");
 
 //configurations
 app = express();
