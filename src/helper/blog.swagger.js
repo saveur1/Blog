@@ -56,11 +56,6 @@ exports.blogDocs={
     "/blogs" :{
         get:{
             tags:["Blog"],
-            security:[
-                {
-                token:[]
-                }
-            ],
             responses:{
                 200:{
                     description:"Example of Blogs Response",
@@ -101,11 +96,6 @@ exports.blogDocs={
                 name:"blog_id",
                 required:true
             }],
-            security:[
-                {
-                token:[]
-                }
-            ],
             responses:{
                 200:{
                     content:{
@@ -213,6 +203,126 @@ exports.blogDocs={
                             example:{
                                 message:"Post has been deleted successfully",
                                 request: {}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "/blogs/likes":{
+        post:{
+            tags:["Blog"],
+            security:[
+                {
+                    token:[]
+                }
+            ],
+            requestBody:{
+                description:"required fields",
+                content:{
+                    "application/json":{
+                        schema:{
+                            type:"object",
+                            properties:{
+                                blog_id:{
+                                    type:"String",
+                                    description:"Id of blog to Like",
+                                    example:"63d90a40ef529fd533f8edf4",
+                                    required:true
+                                },
+                                like:{
+                                    type:Number,
+                                    description:"like value are 1 or -1",
+                                    example:1,
+                                    required:true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            responses:{
+                200:{
+                    content:{
+                        "application/json":{
+                            type:"object",
+                            example:{
+                                status:"success",
+                                message:""
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "/blogs/comment/create":{
+        post:{
+            tags:["Blog"],
+            security:[
+                {
+                    token:[]
+                }
+            ],
+            requestBody:{
+                description:"Make Comment on this blog post",
+                content:{
+                    "application/json":{
+                        schema:{
+                            type:"object",
+                            properties:{
+                                blog_id:{
+                                    type:"String",
+                                    description:"Id of comment to put comment to!",
+                                    example:"63d90a40ef529fd533f8edf4",
+                                    required:true
+                                },
+                                comment:{
+                                    type:"String",
+                                    description:"You comment on blog",
+                                    example:"This is my body comment on this blog",
+                                    required:true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            responses:{
+                200:{
+                    content:{
+                        "application/json":{
+                            type:"object",
+                            example:{
+                                status:"success",
+                                message:""
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "/blogs/comment/{blog_id}":{
+        get:{
+            tags:["Blog"],
+            parameters:[{
+                in:"path",
+                type:"string",
+                required:true,
+                name:"blog_id",
+                example:"63d9260842ad8f0dfbe21e85"
+            }],
+            responses:{
+                200:{
+                    description:"Response Example",
+                    content:{
+                        "application/json":{
+                            type:"object",
+                            example:{
+                                count:0,
+                                coments:[]
                             }
                         }
                     }

@@ -1,7 +1,7 @@
 const express = require("express");
 const controller = require("../controller/user");
 // const multer = require("multer");
-const CheckAuth = require("../middleware/Authantication");
+const {CheckAuth,check_admin} = require("../middleware/Authantication");
 const router = express.Router();
 
 // const storage = multer.diskStorage({
@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.get("/",CheckAuth,controller.get_all_users);
 
-router.post("/signup", controller.insert_new_user);
+router.post("/signup",check_admin, controller.insert_new_user);
 
 router.post("/login",controller.check_login_credentials);
 

@@ -2,6 +2,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const UserPath = require("./user.swagger");
 const blogPath = require("./blog.swagger");
+const estate = require("./realestate.swagger");
 
 const options = {
     definition: {
@@ -14,6 +15,7 @@ const options = {
         tags: [
             { name: 'User', description: 'User Routes' },
             { name: 'Blog', description: 'Blog Routes' },
+            { name: 'RealEstate', description: 'Real Estates' },
           ],
         servers: [
           {
@@ -36,7 +38,7 @@ const options = {
             },
           },
         },
-        paths: {...(UserPath.UserDocs),...(blogPath.blogDocs)},
+        paths: {...(UserPath.UserDocs),...(blogPath.blogDocs),...(estate.realEstates)},
       },
       apis: ['./routes/*.js'],
 }

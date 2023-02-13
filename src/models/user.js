@@ -29,6 +29,22 @@ const User = mongoose.Schema({
   active:{
     type:Boolean,
     default:true
+  },
+  profilePic:{
+    type:String,
+  },
+  category:{
+    type:String,
+    enum:["normal","author","admin"],
+    default:"normal"
+  }
+},
+{
+  timestamps:true,
+  writeConcern:{
+    w:"majority",
+    j:true,
+    wtimeout:3000
   }
 });
 

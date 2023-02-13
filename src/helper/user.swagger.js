@@ -2,6 +2,11 @@ exports.UserDocs={
     "/user/signup": {
         post:{
             tags:["User"],
+            security:[
+                {
+                    token:[]
+                }
+            ],
             requestBody:{
                 content:{
                     "application/json": {
@@ -85,7 +90,7 @@ exports.UserDocs={
                             type:"object",
                             example:[{
                                 message: "Authantication has passed",
-                                token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2M2Q5MGE0MGVmNTI5ZmQ1MzNmOGVkZjQiLCJlbWFpbCI6ImJpa29yaW1hbmFAZ21haWwuY29tIiwiaWF0IjoxNjc1NjAxMDM0LCJleHAiOjE2NzU2MDQ2MzR9.2-thmiL1C36gXHUU1jOUSxEZNowlX-ihu15VhL0ywpE"
+                                token: ""
                             }
                         ]
                         }

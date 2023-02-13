@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const cors = require("cors");
-const fs = require("fs");
 const swaggerDocumantation = require("./helper/documantation");
 
 const mainRouter = require("./routes/blog");
 const User = require("./routes/user");
+const realEstate = require("./routes/realEstate");
 
 //configurations
 app = express();
@@ -39,6 +39,7 @@ swaggerDocumantation(app);
 app.use("/public",express.static("./public"));
 app.use("/user",User);
 app.use("/blogs",mainRouter);
+app.use("/realestate",realEstate);
 
 
 //404 error handling after routers
