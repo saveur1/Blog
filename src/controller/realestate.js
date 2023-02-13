@@ -11,3 +11,13 @@ exports.insert_new_estate = async(req,res,next) => {
         res.status(500).json({status:"error",error:error.message});
     }
 }
+
+exports.get_all_estate = async(req,res,next) => {
+    try {
+        let estates =await RealEstate.find();
+        return res.status(200).json({status:"success",count:estates.length,result:estates});
+    }
+    catch(error) {
+        res.status(500).json({status:"error",error:error.message});
+    }
+}

@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.post("/",controller.insert_new_estate);
 
+router.get("/all",controller.get_all_estate);
+
 module.exports = router;

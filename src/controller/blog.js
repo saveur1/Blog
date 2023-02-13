@@ -284,6 +284,15 @@ exports.add_remove_like =(req,res,next) => {
 
 }
 
+exports.get_all_likes = async(req,res,next) => {
+    try{
+    let likes = await Like.find({"blog_id":req.body.blog_id});
+    return res.status(200).json({status:"success",likes_number:likes.length});
+    }catch(error) {
+      res.status(500).json({status:"error",message:error.message});
+    }
+}
+
 exports.make_comment = (req,res,next) =>{
    let user_id = req.userData.user_id;
    if(req.body.blog_id)

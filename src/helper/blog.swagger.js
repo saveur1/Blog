@@ -257,6 +257,32 @@ exports.blogDocs={
             }
         }
     },
+    "/blogs/likes/{blog_id}":{
+        get:{
+            tags:["Blog"],
+            parameters:[{
+               in:"path",
+               type:"string",
+               name:"blog_id",
+               example:"63e4fd5d938843dc4218f839",
+               required:true,
+               description:"get all likes on a single blog"
+            }],
+            responses:{
+                200:{
+                    content:{
+                        "application/json":{
+                            type:"object",
+                            example:{
+                                status:"success",
+                                likes_number:0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
     "/blogs/comment/create":{
         post:{
             tags:["Blog"],

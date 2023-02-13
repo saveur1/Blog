@@ -39,6 +39,8 @@ const uploads = multer({storage:storage,fileFilter:fileFilter});
 
  router.post("/likes",CheckAuth,controller.add_remove_like);
 
+ router.get("/likes/:blog_id",controller.get_all_likes);
+
  router.post("/comment/create",CheckAuth,controller.make_comment);
 
  router.get("/comment/:blog_id",controller.fetch_comments);

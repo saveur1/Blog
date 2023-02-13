@@ -77,5 +77,23 @@ exports.realEstates ={
                 }
             }
         }
+    },
+    "/realestate/all":{
+        get:{
+           tags:["RealEstate"],
+           responses:{
+            200:{
+                content:{
+                    "application/json":{
+                        type:"object",
+                        example:{
+                            status:"success",
+                            result:{}
+                        }
+                    }
+                }
+            }
+           }
+        }
     }
 }
