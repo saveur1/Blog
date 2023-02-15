@@ -69,8 +69,9 @@ exports.insert_new_user = (req,res,next) => {
                                     else
                                         newUser = new User({ _id :new mongoose.Types.ObjectId(),username:req.body.username,email:req.body.email, password:hash,category:"normal"});
                                     
+                                    const token= jwt.sign({user_id:newUser._id, email:newUser.email, category:newUser.category},process.env.SECRET_KEY,{expiresIn:"1d"});
                                     newUser.save()
-                                    .then(result => {res.status(200).json({"message" : "User inserted successfully","insertedUser" : newUser });})
+                                    .then(result => {res.status(200).json({message : "User was added successfully",token:token,"insertedUser" : newUser });})
                                     .catch(error => {console.log(error);res.status(500).json({error:error});});
                                 }
                             })
@@ -143,7 +144,7 @@ exports.check_login_credentials = (req,res,next) => {
                     }
                     if(same) {
                         const token = jwt.sign({user_id:doc._id, email:doc.email,category:doc.category},process.env.SECRET_KEY,{expiresIn:"1d"});
-                        return res.status(200).json({message:"Authantication has passed",token:token});
+                        return res.status(200).json({message:"Authantication has passed",token:token,userData:doc});
                     }
                     return res.status(401).json({message:"Authantication failed"});})
             }

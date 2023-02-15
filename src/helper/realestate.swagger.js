@@ -8,20 +8,25 @@ exports.realEstates ={
                         schema:{
                             type:"object",
                             properties:{
-                                province:{
-                                    type:"string",
-                                    example:"Northern province",
-                                    description:"province of estate"
-                                },
-                                district:{
-                                    type:"string",
-                                    example:"Gakenke",
-                                    description:"district of estate"
-                                },
-                                street:{
-                                    type:"string",
-                                    example:"KN 45 st",
-                                    description:"Street of the building"
+                                location:{
+                                    type:"object",
+                                    properties:{
+                                        province:{
+                                            type:"string",
+                                            example:"Northern province",
+                                            description:"province of estate"
+                                        },
+                                        district:{
+                                            type:"string",
+                                            example:"Gakenke",
+                                            description:"district of estate"
+                                        },
+                                        street:{
+                                            type:"string",
+                                            example:"KN 45 st",
+                                            description:"Street of the building"
+                                        },
+                                    },
                                 },
                                 price:{
                                     type:Number,

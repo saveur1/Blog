@@ -183,61 +183,26 @@ exports.delete_blog = (req,res,next) => {
 exports.edit_blog_data = (req,res,next) =>{
    let edit_id=req.params.edit_id;
    if(edit_id.length<24) {
-      return res.status(422).json({
-         message:"Invalid id format, id should be greater than 12 characters"
-      })
+      return res.status(422).json({message:"Invalid id format, id should be greater than 12 characters"})
    }
    if(req.file==undefined) {
-      return res.status(422).json({
-         message:"Upload Blog image please"
-      })
+      return res.status(422).json({message:"Upload Blog image please"});
    };
    User.findOne({user:req.body.user})
         .exec()
        .then(doc=>{
          if(doc)
          {
-            Blog.updateOne(
-               {
-                  _id:edit_id
-               },
-               {
-                  "$set": {
-                     title:req.body.title,
-                     body:req.body.body,
-                     user:req.body.user,
-                     blogImage:req.file.filename
-                  }
-               })
+            Blog.updateOne({_id:edit_id},{"$set": {title:req.body.title, body:req.body.body, user:req.body.user, blogImage:process.env.BLOG_URL+"/public/"+req.file.filename}})
                .exec()
-               .then(result =>{
-                  res.status(200).json({
-                     message:"Blog updated successfully",
-                     request:{
-                        type:"GET",
-                        url:process.env.BLOG_URL+"/blogs/"+edit_id
-                     }
-                  });
-               })
-               .catch(error =>{
-                  console.log(error);
-                  res.status(500).json({
-                     error:error
-                  });
-               });
+               .then(result =>{res.status(200).json({message:"Blog updated successfully",request:{type:"GET",url:process.env.BLOG_URL+"/blogs/"+edit_id}});})
+               .catch(error =>{console.log(error);res.status(500).json({error:error});});
          }
          else{
-            res.status(422).json({
-               message:"Entered user id is not found,try with different"
-            });
+            res.status(422).json({message:"Entered user id is not found,try with different"});
          }
        })
-       .catch(error =>{
-         console.log(error);
-           res.status(500).json({
-            error:error
-           });
-       });
+       .catch(error =>{console.log(error);res.status(500).json({error:error});});
 }
 
 exports.add_remove_like =(req,res,next) => {

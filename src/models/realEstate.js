@@ -1,13 +1,12 @@
 const mongoose = require("mongoose");
 
-const Location = mongoose.Schema({
-    province:String,
-    district:String,
-    street:String
-});
 const RealEstate = mongoose.Schema({
     _id:mongoose.Schema.Types.ObjectId,
-    location:[Location],
+    location:{
+        province:String,
+        district:String,
+        street:String
+    },
     price: String,
     images: [{
         type:String
