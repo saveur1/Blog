@@ -43,11 +43,9 @@ exports.UserDocs={
                         "application/json" : {
                                 type:"object",
                                 example:{
-                                    _id: "63d90a40ef529fd533f8edf4",
-                                    username: "saveur123",
-                                    email: "bikorimana@gmail.com",
-                                    password: "$2b$10$aMtqmQvrf5ogVJU9vIk4oOZFcO1Jt6Zgup7bJZ6jR/k8dlb4KGZjO",
-                                    active: true,
+                                    message:"User was added successfully",
+                                    token:"",
+                                    insertedUser:{}
                                 }
                          }
                     }
@@ -90,7 +88,8 @@ exports.UserDocs={
                             type:"object",
                             example:[{
                                 message: "Authantication has passed",
-                                token: ""
+                                token: "",
+                                userData:{}
                             }
                         ]
                         }
