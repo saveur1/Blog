@@ -24,11 +24,7 @@ exports.get_all_users = (req,res,next) => {
                     "page_no"      : page,
                     "result"       : docs.map(doc =>{
                         return {
-                            _id        : doc._id,
-                            username : doc.username,
-                            email      : doc.email,
-                            password   : doc.password,
-                            active     : doc.active,
+                            ...doc._doc,
                             request    : {
                                 type :  "GET",
                                 url  :  process.env.BLOG_URL+"/user/"+doc._id
@@ -144,7 +140,7 @@ exports.check_login_credentials = (req,res,next) => {
                     }
                     if(same) {
                         const token = jwt.sign({user_id:doc._id, email:doc.email,category:doc.category},process.env.SECRET_KEY,{expiresIn:"1d"});
-                        return res.status(200).json({message:"Authantication has passed",token:token,userData:doc});
+                        return res.status(200).json({message:"Login successfully",token:token,userData:doc});
                     }
                     return res.status(401).json({message:"Authantication failed"});})
             }

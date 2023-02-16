@@ -3,37 +3,25 @@ const User = require("../models/user");
 const Like = require("../models/likes");
 const Comment = require("../models/comment");
 const { default: mongoose } = require("mongoose");
-exports.get_all_blogs = (req,res,next) => {
-    Blog.find()
-    .populate()
-    .exec()
-    .then(docs => {
-      let newDocs = docs.map(doc => {
-         return {
-            _id   :doc._id,
-            title :doc.title,
-            body  : doc.body,
-            user  :doc.user,
-            createdAt  :doc.createdAt,
-            updatedAt  :doc.updatedAt,
-            blogImage  :doc.blogImage,
-            request    : { 
-               type:"GET",
-               url:process.env.BLOG_URL+"/"+doc._id
-            }
-         }
-      });
-       res.status(200).json({
-          counted:docs.length,
-          result:newDocs
-       });
-    })
-    .catch(error => {
-      console.log(error);
-      res.status(500).json({
-         error:error
-      });
-    });
+
+async function fetchAllLikes(blogs) {
+   let newBlogs=[];
+     for(let i=0;i<blogs.length;i++)
+     {
+       const likes=await Like.find({"blog_id":blogs[i]._id})
+       newBlogs.push({...blogs[i]._doc, __v:undefined, request:{ type:"GET",url:process.env.BLOG_URL+"/"+blogs[i]._id}, likes:likes.length});
+     }
+   return newBlogs;
+}
+exports.get_all_blogs = async(req,res,next) => {
+      try {
+         const docs=await Blog.find();
+         const newDocs=await fetchAllLikes(docs)
+         res.status(200).json({counted:docs.length,result:newDocs});
+      } catch (error) {
+         console.log(error);
+         res.status(500).json({error:error});
+      }
 };
 
 exports.insert_new_post = (req,res,next) => {
@@ -46,9 +34,7 @@ exports.insert_new_post = (req,res,next) => {
              .then(docs => {
                if(docs.length>0)
                {
-                  return res.status(422).json({
-                      message:"The blog You want to post has already been posted"
-                  });
+                  return res.status(422).json({message:"The blog You want to post has already been posted"});
                }
                else
                {
@@ -72,30 +58,10 @@ exports.insert_new_post = (req,res,next) => {
                  }
                  newBlog.save()
                      .then(doc => {
-                       let created_blog= {
-                             _id   :doc._id,
-                             title :doc.title,
-                             body  : doc.body,
-                             user  :doc.user,
-                             createdAt  :doc.createdAt,
-                             updatedAt  :doc.updatedAt,
-                             blogImage  :doc.blogImage,
-                             request    : {
-                                type:"GET",
-                                url:process.env.BLOG_URL+"/"+doc._id
-                             }
-                           }
-                       res.status(200).json({
-                          message:"Created New Post successfully",
-                          created_blog:created_blog
-                       });
+                       let created_blog= {...doc, request: {type:"GET",url:process.env.BLOG_URL+"/"+doc._id}};
+                       res.status(200).json({message:"Created New Post successfully",created_blog:created_blog});
                      })
-                     .catch(error => {
-                       console.log(error);
-                       res.status(500).json({
-                          error:error
-                       });
-                     });
+                     .catch(error => {console.log(error);res.status(500).json({error:error});});
                }
              })
              .catch(error => {
