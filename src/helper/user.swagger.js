@@ -87,7 +87,7 @@ exports.UserDocs={
                         "application/json" :{
                             type:"object",
                             example:[{
-                                message: "Authantication has passed",
+                                message: "Login successfully",
                                 token: "",
                                 userData:{}
                             }
@@ -169,11 +169,6 @@ exports.UserDocs={
               required:true,
               example:"63da9eb9db47ce0c7f205d6f"
             }],
-            security:[
-                {
-                    token:[]
-                }
-            ],
             responses:{
                 200:{
                     content:{

@@ -20,11 +20,11 @@ router.post("/signup",check_admin, controller.insert_new_user);
 
 router.post("/login",controller.check_login_credentials);
 
-router.put("/:updateId", controller.modify_user_info);
+router.put("/:updateId",CheckAuth, controller.modify_user_info);
 
 router.get("/:userId",controller.fetch_single_user);
 
-router.delete("/:deleteId",controller.delete_user);
+router.delete("/:deleteId",CheckAuth,controller.delete_user);
 
 
 
