@@ -8,6 +8,12 @@ router.post("/",uploads.array("images",2),controller.insert_new_estate);
 
 router.get("/all",controller.get_all_estate);
 
-router.post("/update/:updateId",uploads.array("images",2),controller.update_estates);
+router.put("/update/:updateId",uploads.array("images",2),controller.update_estates);
+
+router.delete("/delete/:deleteId",controller.delete_realestate);
+
+router.get("/single/:estateId",controller.fetch_single);
+
+
 
 module.exports = router;

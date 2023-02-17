@@ -36,3 +36,21 @@ exports.update_estates = async(req,res,next) => {
         res.status(500).json({status:"error",error:error.message});
     }
 }
+
+exports.delete_realestate = async(req,res,next) => {
+    try {
+        await RealEstate.deleteOne({_id:req.params.deleteId});
+        res.status(200).json({status:"success",message:"real estate deleted successfully"});
+    } catch (error) {
+        res.status(500).json({status:"error",error:error.message});
+    }
+}
+
+exports.fetch_single= async(req,res,next) => {
+    try {
+        let estate = await RealEstate.findById(req.params.estateId);
+        res.status(200).json(estate);
+    } catch (error) {
+        res.status(500).json({status:"error",error:error.message});
+    }
+}

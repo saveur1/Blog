@@ -67,7 +67,7 @@ exports.insert_new_user = (req,res,next) => {
                                     
                                     const token= jwt.sign({user_id:newUser._id, email:newUser.email, category:newUser.category},process.env.SECRET_KEY,{expiresIn:"1d"});
                                     newUser.save()
-                                    .then(result => {res.status(200).json({message : "User was added successfully",token:token,"insertedUser" : newUser });})
+                                    .then(result => {res.status(200).json({message : "User was added successfully",token:token,"userData" : newUser });})
                                     .catch(error => {console.log(error);res.status(500).json({error:error});});
                                 }
                             })
