@@ -45,7 +45,7 @@ exports.UserDocs={
                                 example:{
                                     message:"User was added successfully",
                                     token:"",
-                                    insertedUser:{}
+                                    userData:{}
                                 }
                          }
                     }
